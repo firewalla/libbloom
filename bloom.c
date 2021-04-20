@@ -173,7 +173,7 @@ int bloom_import(struct bloom * bloom, const char* file_path)
   }
 
   cnt = fread(bloom->bf, sizeof(unsigned char), bloom->bytes, fp);
-  printf("nubmer of bytes read: %d\n", cnt);
+//  printf("number of bytes read: %d\n", cnt);
 
   fclose(fp);
 
@@ -196,7 +196,7 @@ int bloom_export(struct bloom * bloom, const char* file_path)
   }
 
   cnt = fwrite(bloom->bf, sizeof(unsigned char), bloom->bytes, fp);
-  printf("nubmer of bytes written: %d\n", cnt);
+//  printf("number of bytes written: %d\n", cnt);
 
   fclose(fp);
 
