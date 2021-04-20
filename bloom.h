@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2012-2017, Jyri J. Virkki
+ *  Copyright (c) 2012-2021, Jyri J. Virkki
  *  All rights reserved.
  *
  *  This file is under BSD license. See LICENSE file.
@@ -156,6 +156,9 @@ void bloom_free(struct bloom * bloom);
  *
  */
 int bloom_reset(struct bloom * bloom);
+  
+int bloom_import(struct bloom * bloom, const char* file_path);
+int bloom_export(struct bloom * bloom, const char* file_path);
 
 
 /** ***************************************************************************

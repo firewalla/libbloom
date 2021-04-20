@@ -53,6 +53,19 @@ int main(int argc, char **argv)
   assert(bloom_add(&bloom, "hello", 5) == 0);
   assert(bloom_add(&bloom, "hello", 5) > 0);
   assert(bloom_check(&bloom, "hello", 5) == 1);
+  assert(bloom_check(&bloom, "hellox", 6) == 0);
+
+  bloom_export(&bloom, "test1");
+  
   bloom_free(&bloom);
+
+  assert(bloom_init(&bloom, 1002, 0.1) == 0);
+  assert(bloom.ready == 1);
+  bloom_import(&bloom, "test1");
+  assert(bloom_check(&bloom, "hello", 5) == 1);
+  assert(bloom_check(&bloom, "hellox", 6) == 0);
+  bloom_free(&bloom);
+  
+
   printf("----- DONE Basic tests with static library -----\n");
 }
