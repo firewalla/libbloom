@@ -33,8 +33,11 @@ int main(int argc, char** argv) {
 
   while ((nread = getline(&line, &len, stream)) != -1) {
     if(nread > 1) {
-      line[nread-1]='\0';
-      bloom_add(&bloom, line, nread-1);
+      if(line[nread-1] == '\n') {
+        line[nread-1] = '\0';
+        nread--;
+      }
+      bloom_add(&bloom, line, nread);
       printf("%s\n", line);
       processed++;
     }

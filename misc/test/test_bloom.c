@@ -35,8 +35,11 @@ int main(int argc, char** argv) {
 
   while ((nread = getline(&line, &len, stream)) != -1) {
     if(nread > 1) {
-      line[nread-1]='\0';
-      rc = bloom_check(&bloom, line, nread-1);
+      if(line[nread-1] == '\n') {
+        line[nread-1]='\0';
+				nread--;
+      }
+      rc = bloom_check(&bloom, line, nread);
       if(rc == 0) {
         printf("NOT MATCH: %s\n", line);
       } else if(rc == 1) {
