@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2012-2019, Jyri J. Virkki
+ *  Copyright (c) 2012-2021, Jyri J. Virkki
  *  All rights reserved.
  *
  *  This file is under BSD license. See LICENSE file.
@@ -157,6 +157,53 @@ int bloom_reset(struct bloom * bloom)
 {
   if (!bloom->ready) return 1;
   memset(bloom->bf, 0, bloom->bytes);
+  return 0;
+}
+
+int bloom_import(struct bloom * bloom, const char* file_path)
+{
+  FILE *fp;
+  int cnt;
+
+  fp = fopen(file_path, "r");
+ 
+  if(fp == NULL) {
+    printf("file %s can't be opened\n", file_path);
+    return 1;
+  }
+
+  cnt = fread(bloom->bf, sizeof(unsigned char), bloom->bytes, fp);
+//  printf("number of bytes read: %d\n", cnt);
+
+  fclose(fp);
+
+  if(cnt != bloom->bytes) {
+    return 2;
+  }
+  return 0;
+}
+
+int bloom_export(struct bloom * bloom, const char* file_path)
+{
+  FILE *fp;
+  int cnt;
+  
+  fp = fopen(file_path, "w");
+ 
+  if(fp == NULL) {
+    printf("file %s can't be opened\n", file_path);
+    return 1;
+  }
+
+  cnt = fwrite(bloom->bf, sizeof(unsigned char), bloom->bytes, fp);
+//  printf("number of bytes written: %d\n", cnt);
+
+  fclose(fp);
+
+  if(cnt != bloom->bytes) {
+    return 2;
+  }
+ 
   return 0;
 }
 
